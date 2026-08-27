@@ -1,0 +1,148 @@
+# Goal state
+goal = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 0]
+]
+
+
+# Print board
+def print_board(board):
+    for row in board:
+        print(row)
+    print()
+
+
+# Objective function
+def objective(board):
+    score = 0
+
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == goal[i][j]:
+                score += 1
+
+    return score
+
+
+# Generate neighbouring states
+def get_neighbours(board):
+    neighbours = []
+
+    # Find position of blank (0)
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == 0:
+                blank_row = i
+                blank_col = j
+
+    # Possible moves
+    moves = []
+
+    if blank_row > 0:
+        moves.append((blank_row - 1, blank_col))
+
+    if blank_row < 2:
+        moves.append((blank_row + 1, blank_col))
+
+    if blank_col > 0:
+        moves.append((blank_row, blank_col - 1))
+
+    if blank_col < 2:
+        moves.append((blank_row, blank_col + 1))
+
+    # Create neighbouring boards
+    for row, col in moves:
+
+        new_board = [r.copy() for r in board]
+
+        # Swap blank with neighbouring tile
+        new_board[blank_row][blank_col], new_board[row][col] = \
+            new_board[row][col], new_board[blank_row][blank_col]
+
+        neighbours.append(new_board)
+
+    return neighbours
+
+
+# Hill Climbing
+def hill_climbing(start):
+
+    current_state = start
+    current_score = objective(current_state)
+
+    print("Starting state:")
+    print_board(current_state)
+
+    print("Objective value:", current_score)
+
+    while True:
+
+        # Check goal
+        if current_state == goal:
+            print("Goal State Reached!")
+            return
+
+        neighbours = get_neighbours(current_state)
+
+        best_state = current_state
+        best_score = current_score
+
+        # Find the best neighbour
+        for state in neighbours:
+
+            score = objective(state)
+
+            if score > best_score:
+                best_state = state
+                best_score = score
+
+        # No improvement
+        if best_score <= current_score:
+            print("No better state found.")
+            print("Hill Climbing Stopped.")
+            return
+
+        # Move to better state
+        current_state = best_state
+        current_score = best_score
+
+        print("\nNew state:")
+        print_board(current_state)
+        print("Objective value:", current_score)
+
+
+# Starting state
+start = [
+    [1, 2, 3],
+    [4, 0, 6],
+    [7, 5, 8]
+]
+
+# Run the program
+hill_climbing(start)
+
+OUTPUT:
+Starting state:
+[1, 2, 3]
+[4, 0, 6]
+[7, 5, 8]
+
+Objective value: 6
+
+New state:
+[1, 2, 3]
+[4, 5, 6]
+[7, 0, 8]
+
+Objective value: 7
+
+New state:
+[1, 2, 3]
+[4, 5, 6]
+[7, 8, 0]
+
+Objective value: 9
+Goal State Reached!
+
+=== Code Execution Successful ===
