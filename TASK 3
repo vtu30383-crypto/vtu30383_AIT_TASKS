@@ -1,0 +1,61 @@
+graph = {
+    'A': {'B': 1, 'C': 3},
+    'B': {'D': 3, 'E': 6},
+    'C': {'F': 5},
+    'D': {'G': 2},
+    'E': {'G': 1},
+    'F': {'G': 2},
+    'G': {}
+}
+
+heuristic = {
+    'A': 7,
+    'B': 6,
+    'C': 4,
+    'D': 2,
+    'E': 1,
+    'F': 2,
+    'G': 0
+}
+
+def a_star(start, goal):
+    open_list = [start]
+    closed_list = []
+    g = {start: 0}
+    parent = {start: None}
+
+    while open_list:
+        n = min(open_list, key=lambda x: g[x] + heuristic[x])
+
+        if n == goal:
+            path = []
+            while n is not None:
+                path.append(n)
+                n = parent[n]
+            path.reverse()
+            return path, g[goal]
+
+        open_list.remove(n)
+        closed_list.append(n)
+
+        for neighbor, cost in graph[n].items():
+            new_g = g[n] + cost
+
+            if neighbor not in g or new_g < g[neighbor]:
+                g[neighbor] = new_g
+                parent[neighbor] = n
+
+                if neighbor not in open_list and neighbor not in closed_list:
+                    open_list.append(neighbor)
+
+    return None, None
+
+
+path, cost = a_star('A', 'G')
+
+print("Optimal Path:", path)
+print("Total Cost:", cost)
+
+OUTPUT:
+Optimal Path: ['A', 'B', 'D', 'G']
+Total Cost: 6
