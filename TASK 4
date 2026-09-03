@@ -1,0 +1,59 @@
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F', 'G'],
+    'D': ['H', 'I'],
+    'E': ['J', 'K'],
+    'F': ['L', 'M'],
+    'G': ['N', 'O'],
+
+    'H': 8,
+    'I': 15,
+    'J': 10,
+    'K': 9,
+    'L': 12,
+    'M': 6,
+    'N': 23,
+    'O': 23
+}
+
+
+def minimax(node, depth, maximizing_player):
+    # Base case: leaf node or depth reached
+    if depth == 0 or isinstance(graph[node], int):
+        return graph[node]
+
+    if maximizing_player:
+        best_value = float('-inf')
+
+        for child in graph[node]:
+            value = minimax(child, depth - 1, False)
+            best_value = max(best_value, value)
+
+        return best_value
+
+    else:
+        best_value = float('inf')
+
+        for child in graph[node]:
+            value = minimax(child, depth - 1, True)
+            best_value = min(best_value, value)
+
+        return best_value
+
+
+print("MINIMAX ALGORITHM USING GAME TREE")
+print("----------------------------------")
+
+optimal_value = minimax('A', 3, True)
+
+print("Root Node: A")
+print("Player at Root: MAX")
+print("Optimal Value at Root =", optimal_value)
+
+OUTPUT:
+MINIMAX ALGORITHM USING GAME TREE
+----------------------------------
+Root Node: A
+Player at Root: MAX
+Optimal Value at Root = 12
