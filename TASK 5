@@ -1,0 +1,55 @@
+R1 = 30
+R2 = 70
+
+
+total = R1 + R2
+
+
+P1 = R1 / total
+P2 = R2 / total
+
+
+graph = {
+    "TOTAL (100)": ["R1 = 30", "R2 = 70"],
+    "R1 = 30": ["P1 = 0.3 (30%)"],
+    "R2 = 70": ["P2 = 0.7 (70%)"]
+}
+
+
+print("             TOTAL = 100")
+print("              /     \\")
+print("         R1 = 30     R2 = 70")
+print("            |           |")
+print("       P1 = 0.3      P2 = 0.7")
+print("          (30%)        (70%)")
+
+
+print("\nComparison:")
+if P1 > P2:
+    print("R1 has the higher proportion.")
+elif P2 > P1:
+    print("R2 has the higher proportion.")
+else:
+    print("Both proportions are equal.")
+
+
+print("\nResult:")
+print("P1 =", P1, "(30%)")
+print("P2 =", P2, "(70%)")
+print("P1 + P2 =", P1 + P2)
+
+OUTPUT:
+      TOTAL = 100
+              /     \
+         R1 = 30     R2 = 70
+            |           |
+       P1 = 0.3      P2 = 0.7
+          (30%)        (70%)
+
+Comparison:
+R2 has the higher proportion.
+
+Result:
+P1 = 0.3 (30%)
+P2 = 0.7 (70%)
+P1 + P2 = 1.0
