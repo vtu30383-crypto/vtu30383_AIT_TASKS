@@ -1,0 +1,57 @@
+graph = {
+    'A': ['B', 'C','D'],
+    'B': ['A', 'D','C'],
+    'C': ['A', 'D','B'],
+    'D': ['B', 'C', 'E','A'],
+    'E': ['D']
+}
+
+vertices = list(graph.keys())
+
+
+def is_safe(vertex, color, colors):
+    for neighbour in graph[vertex]:
+        if colors.get(neighbour) == color:
+            return False
+    return True
+
+
+def graph_coloring(index, max_colors, colors):
+    if index == len(vertices):
+        return True
+
+    vertex = vertices[index]
+
+    for color in range(1, max_colors + 1):
+        if is_safe(vertex, color, colors):
+            colors[vertex] = color
+
+            if graph_coloring(index + 1, max_colors, colors):
+                return True
+
+            del colors[vertex]
+
+    return False
+
+
+# Find minimum number of colors
+for n in range(1, len(vertices) + 1):
+    colors = {}
+
+    if graph_coloring(0, n, colors):
+        print("Minimum number of colors:", n)
+        print("Vertex Coloring:")
+
+        for vertex in vertices:
+            print(vertex, "-> Color", colors[vertex])
+
+        break
+
+OUTPUT:
+Minimum number of colors: 4
+Vertex Coloring:
+A -> Color 1
+B -> Color 2
+C -> Color 3
+D -> Color 4
+E -> Color 1
